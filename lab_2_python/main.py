@@ -3,7 +3,9 @@ ex_nr = int(input())
 
 if ex_nr == 1:
     def find_gcd(x, y):
-        if y == 0:
+        if x == 0 and y == 0:
+            return 0
+        elif y == 0:
             return x
         else:
             return find_gcd(y, x % y)
@@ -49,9 +51,9 @@ elif ex_nr == 3:
 
         return occ_no
 
-    text = "aaaa"
-    pattern = "aa"
-    print(find_occurrences(text, pattern))
+    text = "abdc"
+    pattern = "ab"
+    print(find_occurrences(pattern, text))
 
 
 elif ex_nr == 4:
@@ -106,6 +108,7 @@ elif ex_nr == 5:
         matrix.append(m)
 
     spiral_matrix(0, 0, n)
+
 
 elif ex_nr == 6:
     def is_palindrome(n):
@@ -162,7 +165,7 @@ elif ex_nr == 8:
 elif ex_nr == 9:
     given_string = input("Enter a string: ")
     given_string = given_string.lower()
-    fr = [0 for i in range(26)]
+    fr = [0 for i in range(27)]
     max_count = 0
     letter = ''
     for i in given_string:
@@ -185,5 +188,3 @@ elif ex_nr == 10:
         if given_string[i] == ' ':
             words = words + 1
     print(words + 1)
-
-
