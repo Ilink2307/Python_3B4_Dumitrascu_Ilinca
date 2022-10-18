@@ -168,4 +168,85 @@ def ascii_div(string_list, num=1, flag=True):
 ascii_div(["test", "hello", "lab002"], 2, False)
 ################################################################
 
-print("\n\nEx_9: A function that returns the characters that have the ASCII code divisible by x (or not)")
+print("\n\nEx_9: A function that returns the spectators that can't see the game")
+def shorter_spectators(matrix):
+    rows = len(matrix)
+    columns = len(matrix[0])
+    list_to_tuple =[]
+    final_list = []
+
+    for col in range(0, columns):
+        for row in range(1, rows):
+            list_to_tuple.clear()
+            for i in range(1, row):
+                if matrix[row][col] < matrix[row-i][col]:
+                    list_to_tuple.append(row)
+                    list_to_tuple.append(col)
+                    #print(tuple(list_to_tuple))
+                    final_list.append(tuple(list_to_tuple))
+    print(final_list)
+
+
+heights = [[1, 2, 3, 2, 1, 1],
+           [8, 4, 4, 3, 7, 2],
+           [5, 5, 2, 5, 6, 4],
+           [6, 6, 7, 6, 7, 5]]
+shorter_spectators(heights)
+################################################################
+
+print("\n\nEx_10: A function that returns a list of ordered tuples")
+def ordered_tuples(list1, list2, list3, list4, list5):
+    max_length = 0
+    list_to_tuple = []
+    tuple_list = []
+
+    for i in (list1, list2, list3, list4, list5):
+        if max_length < len(i):
+            max_length = len(i)
+    print("Max number of elements in a list: ", max_length)
+
+    for i in (list1, list2, list3, list4, list5):
+        while len(i)<max_length:
+            i.append("None")
+
+    for j in range(0, len(list1)):
+        list_to_tuple.clear()
+        for list_index in (list1, list2, list3, list4, list5):
+            list_to_tuple.append(list_index[j])
+        tuple_list.append(tuple(list_to_tuple))
+    print(tuple_list)
+
+ordered_tuples([2, 3], [1,2,3], [5,6,7], ["a", "b", "c"], ["a"])
+################################################################
+
+print("\n\nEx_11: A function that will order a list of string tuples")
+def order_elements_in_tuple(list_of_tuples):
+    print(list_of_tuples)
+
+    list_of_tuples.sort(key=lambda x: x[1][2])
+    print(list_of_tuples)
+
+order_elements_in_tuple([('abc', 'bcd'), ('abc', 'zza'), ('gdr', 'rdb'), ('gfd', 'adc')])
+################################################################
+
+print("\n\nEx_12: A function that will group words by rhyme")
+def group_by_rhyme(given_list):
+    final_list = []
+    rhyme_list = []
+    visited = [0 for i in range(len(given_list))]
+
+    for i in range(0, len(given_list)):
+        rhyme_list.clear()
+        if visited[i] == 0:
+            rhyme_list.append(given_list[i])
+        else:
+            continue
+        for j in range(i+1, len(given_list)):
+            if given_list[i][-2:] == given_list[j][-2:] and visited[i] != 1:
+                visited[j] = 1
+                rhyme_list.append(given_list[j])
+                #print(rhyme_list)
+        final_list.append(list(rhyme_list))
+    print(final_list)
+
+group_by_rhyme(['ana',  'banana', 'carte', 'arme', 'parte', 'rame', 'lame', 'pane', 'z'])
