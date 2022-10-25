@@ -34,6 +34,8 @@ string_to_dictionary(given_string)
 print("\n\nEx_3: A function that compares two dictionaries")
 def compare_dictionaries(dict_1, dict_2):
 
+    print(dict_1.keys())
+    print(dict_1.values())
     if len(dict_1) != len(dict_2):
         return False
 
@@ -51,7 +53,7 @@ def compare_dictionaries(dict_1, dict_2):
             return False
 
 dictionary_1 = dict(a=1, b=2, c=dict(d=1, f=1), d=list[1, 2])
-dictionary_2 = dict(a=1, b=2, c=dict(d=1, f="1"), d=list[1, 2])
+dictionary_2 = dict(a=1, b=2, c=dict(d=1, f=1), d=list[1, 2])
 print(compare_dictionaries(dictionary_1, dictionary_2))
 ################################################################
 
@@ -82,8 +84,9 @@ def validate_dict(tuples_set, dictionary):
         if tuple_i[0] in dictionary.keys():
             words = dictionary[tuple_i[0]].split()
             print(words)
-            if (tuple_i[1] == words[0] or tuple_i[1] == "") and (tuple_i[2] in words or tuple_i[2] == "") \
-                    and (tuple_i[3] == words[-1] or tuple_i[3] == ""):
+            if (words[0].startswith(tuple_i[1]) or tuple_i[1] == "") and (dictionary[tuple_i[0]].find(tuple_i[2])
+                    not in (0, -1, len(dictionary[tuple_i[0]]) - len(tuple_i[2])) or tuple_i[2] == "") \
+                    and (words[-1].endswith(tuple_i[3]) or tuple_i[3] == ""):
                 flag += 1
     print("Number of correct keys:", flag)
     if flag == len(dictionary):
@@ -93,7 +96,7 @@ def validate_dict(tuples_set, dictionary):
 
 s = {("key1", "", "inside", ""), ("key2", "start", "middle", "winter"), ("key3", "this", "", "")}
 d = {
-     "key1": "come inside , it's too cold out",
+     "key1": "come inside, it's too cold out",
      "key3": "this is not valid"
     }
 print(validate_dict(s, d))
