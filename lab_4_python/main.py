@@ -1,7 +1,5 @@
-from xml.etree.ElementTree import Element, SubElement, tostring
-
 print("\nEx_1: A function that will receives two lists and returns a list of sets")
-def set_list(list_a, list_b):
+def list_operations(list_a, list_b):
     final_set_list = []
 
     reunion = (set(list_a).union(list_b))
@@ -18,7 +16,7 @@ def set_list(list_a, list_b):
 
 a_list = [0, 1, 2, 3, 4, 5, 6, 7, "False"]
 b_list = [6, 7, 8, 9, "True", "False"]
-print(set_list(a_list, b_list))
+print(list_operations(a_list, b_list))
 ################################################################
 
 print("\n\nEx_2: A function that receives a string as a parameter and returns a dictionary")
@@ -35,43 +33,38 @@ string_to_dictionary(given_string)
 
 print("\n\nEx_3: A function that compares two dictionaries")
 def compare_dictionaries(dict_1, dict_2):
-    # d1_keys = set(dict_1.keys())
-    # d2_keys = set(dict_2.keys())
+
     if len(dict_1) != len(dict_2):
-        print("False")
+        return False
 
     else:
         flag = 0
         for i in dict_1:
             if dict_1.get(i) != dict_2.get(i):
+                print(dict_1.get(i))
+                print(dict_2.get(i))
                 flag = 1
                 break
         if flag == 0:
-            print("True")
+            return True
         else:
-            print("False")
-    print("TUDORRR!!")
+            return False
 
 dictionary_1 = dict(a=1, b=2, c=dict(d=1, f=1), d=list[1, 2])
-dictionary_2 = dict(a=1, b=2, c=dict(d=1, f="sa"), d=list[1, 2])
-compare_dictionaries(dictionary_1, dictionary_2)
+dictionary_2 = dict(a=1, b=2, c=dict(d=1, f="1"), d=list[1, 2])
+print(compare_dictionaries(dictionary_1, dictionary_2))
 ################################################################
 
 print("\n\nEx_4: A function that compares two dictionaries")
-#def build_xml_element(tag, content, key_value1, key_value2, key_value3):
+def build_xml_element(tag, content, **name_parameters):
 
-#     root = Element('root')
-#     child = SubElement(root, "child")
-#     child.text = "I am a child"
-#
-#     print(tostring(root))
-#
-# href = " http://python.org "
-# _class =" my-link "
-# id= " some_id "
-# build_xml_element ("a", "Hello there", href, _class, id)
+    final_string = "<" + tag + " "
+    for name_param in name_parameters.items():
+        final_string += (str(name_param[0]) + "=\"" + str(name_param[1])) + "\""
+    final_string += "> " + content + "</" + tag + ">"
+    print(final_string)
 
-# "<a href=\"http://python.org \ "_class = \" my-link \ "id = \" someid \ "> Hello there </a>"
+build_xml_element("a", "Hello there", href=" https://python.org ", _class=" my-link ", id=" some_id ")
 ################################################################
 
 print("\n\nEx_5: A function that validates the dictionary")
@@ -79,17 +72,18 @@ def validate_dict(tuples_set, dictionary):
     tuple_keys = []
     flag = 0
 
-    for tuple in tuples_set:
-        tuple_keys.append(tuple[0])
+    for tuple_i in tuples_set:
+        tuple_keys.append(tuple_i[0])
     for key in dictionary.keys():
         if key not in tuple_keys:
             return False
 
-    for tuple in tuples_set:
-        if tuple[0] in dictionary.keys():
-            words = dictionary[tuple[0]].split()
+    for tuple_i in tuples_set:
+        if tuple_i[0] in dictionary.keys():
+            words = dictionary[tuple_i[0]].split()
             print(words)
-            if (tuple[1] == words[0] or tuple[1] == "") and (tuple[2] in words or tuple[2] == "") and (tuple[3] == words[-1] or tuple[3] == ""):
+            if (tuple_i[1] == words[0] or tuple_i[1] == "") and (tuple_i[2] in words or tuple_i[2] == "") \
+                    and (tuple_i[3] == words[-1] or tuple_i[3] == ""):
                 flag += 1
     print("Number of correct keys:", flag)
     if flag == len(dictionary):
@@ -127,4 +121,53 @@ unique_and_duplicate(list_1)
 ################################################################
 
 print("\n\nEx_7: A function that returns a dictionary with the operations from all sets")
+def set_operations(set_1, set_2, set_3):
+    dictionary = {}
+    set_list = [set_1, set_2, set_3]
+    print(set_list)
 
+    for i in range(0, len(set_list) - 1):
+        for j in range(i+1, len(set_list)):
+            if set_list[i] != set_list[j]:
+                dictionary[str(set_list[i]) + " | " + str(set_list[j])] = set_list[i].union(set_list[j])
+                dictionary[str(set_list[i]) + " & " + str(set_list[j])] = set_list[i].intersection(set_list[j])
+                dictionary[str(set_list[i]) + " - " + str(set_list[j])] = set_list[i].difference(set_list[j])
+                dictionary[str(set_list[j]) + " - " + str(set_list[i])] = set_list[j].difference(set_list[i])
+    print(dictionary, sep='\n')
+
+
+set1 = {1, 2}
+set2 = {2, 3}
+set3 = {2, 3, 4, 5}
+set4 = {6, 7, 8}
+set_operations(set1, set2, set3)
+################################################################
+
+print("\n\nEx_8: A function that returns the list of objects obtained by mapping")
+def loop(mapping):
+    visited_keys = []
+    current_key = "start"
+    while current_key not in visited_keys:
+        visited_keys.append(current_key)
+        current_value = mapping[current_key]
+        current_key = current_value
+
+    print(visited_keys)
+
+
+loop_dictionary = {'start': 'a', 'b': 'a', 'a': '6', '6': 'z', 'x': '2', 'z': '2', '2': '2', 'y': 'start'}
+loop(loop_dictionary)
+################################################################
+
+print("\n\nEx_9: A function that will return the number of positional arguments found among keyword arguments values")
+def positional_argument_no(*positional_args, **keyword_args):
+    counter = 0
+
+    for key_arg in keyword_args.values():
+        for pos_arg in positional_args:
+            if key_arg == pos_arg:
+                counter += 1
+                continue
+    print(counter)
+
+positional_argument_no(1, 2, 3, 4, x=1, y=2, z=3, w=5)
