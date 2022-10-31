@@ -1,4 +1,5 @@
 import os
+import sys
 
 ################################################################
 
@@ -36,7 +37,8 @@ def directory_files(directory, file):
     file.close()
     return "File modified successfully"
 
-given_directory = "D:\\scoala\\Facultate\\AN 1\\Mate" # "D:\\scoala\\Facultate\\AN_2\\Sem1\\AG\\Tema_1"
+given_directory = "D:\\scoala\\Facultate\\AN 1\\Mate"
+# given_directory = "D:\\scoala\\Facultate\\AN_2\\Sem1\\AG\\Tema_1"
 given_file = "D:\\scoala\\Facultate\\AN_3\\Python\\Python_3B4_Dumitrascu_Ilinca\\lab_5_python\\Directory\\File1.txt"
 
 print(directory_files(given_directory, given_file))
@@ -63,7 +65,8 @@ def file_characters_directory_tuples(my_path):
         file = open(my_path, 'r')
         return file.read()[-20:]
 
-given_directory = "D:\\scoala\\Facultate\\AN 1\\Mate" # "D:\\scoala\\Facultate\\AN_2\\Sem1\\AG\\Tema_1"
+given_directory = "D:\\scoala\\Facultate\\AN 1\\Mate"
+# given_directory = "D:\\scoala\\Facultate\\AN_2\\Sem1\\AG\\Tema_1"
 given_file = "D:\\scoala\\Facultate\\AN_3\\SI\\curs_1_notes.txt"
 print(file_characters_directory_tuples(given_directory))
 # print(file_characters_directory_tuples(given_file))
@@ -75,18 +78,15 @@ def ordered_extensions(directory):
     file_list = os.listdir(directory)
     extension_list = []
 
-    for file in file_list:
-        file_name, file_extension = os.path.splitext(file)
+    for file_index in file_list:
+        file_name, file_extension = os.path.splitext(file_index)
         if file_extension != '':
             extension_list.append(file_extension[1:])
 
     extension_list.sort()
     return extension_list
-print("Diferenta 1 4????")
 
-input_directory = "D:\\scoala\\Facultate\\AN 1\\Logica"
-# input("Input a directory: ")
-print(ordered_extensions(input_directory))
+print(ordered_extensions(sys.argv[1]))
 ################################################################
 
 print("\n\nEx5: Find a string in a file or directory")
@@ -102,10 +102,14 @@ def search_string(file_path, string):
 def find_string(target, to_search):
     file_contains = []
     try:
-        assert os.path.isdir(target) or os.path.isfile(target), "target should be a file or a directory"
+        if not (os.path.isdir(target) or os.path.isfile(target)):
+            raise ValueError("target should be a file or a directory")
+
+    except ValueError as ve:
+        print("ValueError exception: ", ve)
 
     except Exception as e:
-        print(e)
+        print("GeneralError exception: ", e)
 
     else:
         if os.path.isdir(target):
@@ -117,18 +121,47 @@ def find_string(target, to_search):
             if search_string(target, "informatiei"):
                 file_contains.append(target)
 
-        print(file_contains)
+        return file_contains
 
 input_path = "D:\\scoala\\Facultate\\AN_3\\SI\\curs_1_notes.txt"
-find_string(input_path, "informatiei ")
+print(find_string(input_path, "informatiei "))
 ################################################################
 
-print("\n\nEx6: ?not now ty?")
+print("\n\nEx6: + callback function")
+def callback_function(error):
+    print("The error was: ", error)
+
+def find_string(target, to_search, callback):
+    file_contains = []
+    try:
+        if not (os.path.isdir(target) or os.path.isfile(target)):
+            raise ValueError("target should be a file or a directory")
+
+    except ValueError as ve:
+        callback(ve)
+
+    except Exception as e:
+        callback(e)
+
+    else:
+        if os.path.isdir(target):
+            file_list = os.listdir(target)
+            for file_dir in file_list:
+                find_string(file_dir, to_search)
+
+        elif os.path.isfile(target):
+            if search_string(target, "informatiei"):
+                file_contains.append(target)
+
+        return file_contains
+
+input_path = "D:\\scoala\\Facultate\\AN_3\\SI\\curs_1_notes.txt"
+print(find_string("input_path", "informatiei ", callback_function))
 ################################################################
 
 print("\n\nEx7: Dictionary with path information")
 def file_info(file_path):
-    dictionary ={
+    dictionary = {
         "full_path": os.path.abspath(file_path),
         "file_size": os.stat(file_path).st_size,
         "file_extension": os.path.splitext(file_path)[1][1:],
@@ -138,8 +171,8 @@ def file_info(file_path):
 
     return dictionary
 
-file = "D:\\scoala\\Facultate\\AN_3\\SI\\curs_1_notes.txt"
-print(file_info(file))
+file_to_search = "D:\\scoala\\Facultate\\AN_3\\SI\\curs_1_notes.txt"
+print(file_info(file_to_search))
 ################################################################
 
 print("\n\nEx8: Absolute paths of files in a directory")
@@ -148,13 +181,11 @@ def file_paths(directory):
 
     file_list = os.listdir(directory)
     for content in file_list:
-        print(content)
-        if os.path.isfile(content):
-            print(content)
-            absolute_paths.append(os.path.abspath(content))
+        content_path = os.path.join(directory, content)
+        if os.path.isfile(content_path):
+            absolute_paths.append(os.path.abspath(content_path))
 
     return absolute_paths
 
 input_directory = "D:\\scoala\\Facultate\\AN_3\\DSFUM"
 print(file_paths(input_directory))
-print("Nu merge nush dc, not now ty x2")
